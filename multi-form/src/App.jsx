@@ -8,27 +8,31 @@ function App() {
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Sidebar />
     </>
+  )
+}
+
+function Sidebar() {
+  return (
+    <div className='sidebar'>
+      <Barstep number="1" info="YOUR INFO"></Barstep>
+      <Barstep number="2" info="SELECT PLAN"></Barstep>
+      <Barstep number="3" info="ADD-ONS"></Barstep>
+      <Barstep number="4" info="SUMMERY"></Barstep>
+    </div>
+  )
+}
+
+function Barstep(props) {
+  return (
+    <div className='step-container'>
+      <p>{props.number}</p>
+      <div className='step-info-container'>
+        <p>step {props.number}</p>
+        <p>{props.info}</p>
+      </div>
+    </div> 
   )
 }
 
