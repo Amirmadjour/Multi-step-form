@@ -226,3 +226,38 @@ form > button:hover {
   color: var(--Cool-gray);
 }
 
+.toggle {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  justify-content: center;
+
+  margin-top: 20px;
+  background-color: var(--Magnolia);
+}
+
+.toggle_button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 40px;
+  height: 20px;
+  outline: none;
+  border: none;
+  margin-top: auto;
+  margin-bottom: auto;
+  border-radius: 10px;
+  padding-left: 2px;
+  padding-right: 2px;
+
+  background-color: var(--Marine-blue);
+}
+
+.toggle_button > div {
+  height: 16px;
+  width: 16px;
+  position: absolute;
+  background-color: var(--White);
+  border-radius: 50%;
+  transition-duration: 100ms;
+}

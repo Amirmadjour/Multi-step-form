@@ -186,7 +186,7 @@ function Step1({ formData, handleInputChange }) {
 }
 
 const PlanButtons = ({ onChange }) => {
-  const [selectedButton, setSelectedButton] = useState(null);
+  const [selectedButton, setSelectedButton] = useState("Arcade");
   const [toggle, setToggle] = useState(false);
 
   const handleButtonClicked = (value) => {
@@ -199,7 +199,7 @@ const PlanButtons = ({ onChange }) => {
 
   const handletoggle = () => {
     setToggle(!toggle);
-  }
+  };
 
   return (
     <div>
@@ -214,7 +214,7 @@ const PlanButtons = ({ onChange }) => {
         >
           <img src={iconArcadeSVG} />
           <p>Arcade</p>
-          <p>$9/mo</p>
+          <p>{ toggle ? "$90/yr" : "$9/mo"}</p>
         </button>
         <button
           type="button"
@@ -226,7 +226,7 @@ const PlanButtons = ({ onChange }) => {
         >
           <img src={iconAdvancedSVG} />
           <p>Advanced</p>
-          <p>$12/mo</p>
+          <p>{ toggle ? "$120/yr" : "$12/mo"}</p>
         </button>
         <button
           type="button"
@@ -237,13 +237,26 @@ const PlanButtons = ({ onChange }) => {
         >
           <img src={iconProdSVG} />
           <p>Pro</p>
-          <p>$15/mo</p>
+          <p>{ toggle ? "$150/yr" : "$15/mo"}</p>
         </button>
-        <div style={{color: toggle ? "hsl(231, 11%, 63%)" : "hsl(213, 96%, 18%)"}} className="toggle">
-          <p>Monthly</p>
-          <button type="button" onClick={handletoggle} className="toggle_button"></button>
-          <p style={{color: !toggle ? "hsl(231, 11%, 63%)" : "hsl(213, 96%, 18%)"}}>Yearly</p>
-        </div>
+      </div>
+      <div 
+        style={{ color: toggle ? "hsl(231, 11%, 63%)" : "hsl(213, 96%, 18%)" }}
+        className="toggle"
+      >
+        <p>Monthly</p>
+        <button
+          type="button"
+          onClick={handletoggle}
+          className="toggle_button"
+        ><div style={{ left: toggle ? "22px" : "2px"}}></div></button>
+        <p
+          style={{
+            color: !toggle ? "hsl(231, 11%, 63%)" : "hsl(213, 96%, 18%)",
+          }}
+        >
+          Yearly
+        </p>
       </div>
     </div>
   );
