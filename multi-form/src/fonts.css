@@ -1,0 +1,30 @@
+@font-face {
+  font-family: Ubuntu-Bold;
+  src: url(/fonts/Ubuntu-Bold.ttf);
+}
+
+.props-info, 
+.step-container > p,
+form > button {
+  font-family: Ubuntu-Bold;
+}
+
+@font-face {
+  font-family: Ubuntu-Medium;
+  src: url(/fonts/Ubuntu-Medium.ttf);
+}
+
+input,
+input::placeholder,
+.planbuttons > button {
+  font-family: Ubuntu-Medium;
+}
+
+@font-face {
+  font-family: Ubuntu-Regular;
+  src: url(/fonts/Ubuntu-Regular.ttf);
+}
+
+form label {
+  font-family: Ubuntu-Regular;
+}

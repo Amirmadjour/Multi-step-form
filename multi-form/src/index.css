@@ -5,13 +5,29 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: hsl(206, 94%, 87%);
+  background-color: hsl(217, 100%, 97%);
+
+  /* Primary */
+  --Marine-blue: hsl(213, 96%, 18%);
+  --Purplish-blue: hsl(243, 100%, 62%);
+  --Pastel-blue: hsl(228, 100%, 84%);
+  --Light-blue: hsl(206, 94%, 87%);
+  --Strawberry-red: hsl(354, 84%, 57%);
+
+  /* Neutral */
+  --Cool-gray: hsl(231, 11%, 63%);
+  --Light-gray: hsl(229, 24%, 87%);
+  --Magnolia: hsl(217, 100%, 97%);
+  --Alabaster: hsl(231, 100%, 99%);
+  --White: hsl(0, 0%, 100%);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  user-select: none;
 }
 
 body {
@@ -21,3 +37,192 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+.mainwindow {
+  display: flex;
+  align-items: center;
+  height: 600px;
+  width: 1000px;
+  border-radius: 15px;
+  background-color: white;
+}
+
+.mainwindow > p {
+  color: black;
+}
+
+.sidebar {
+  background-image: url('/bg-sidebar-desktop.svg');
+  background-position: center;
+  height: 568px;
+  width: 274px;
+
+  margin-left: 16px;
+}
+
+.info-bar {
+  position: absolute;
+  margin-top: 1.5rem;
+}
+
+.step-container {
+  display: flex;
+  align-items: center;
+  margin-left: 2.5rem;
+  gap: 1rem;
+}
+
+.step-container > p {
+  height: 35px;
+  width: 35px;
+  border: 1px white solid;
+  border-radius: 50%;
+  margin: 15px 0;
+  line-height: 2.125;
+}
+
+.step-activated > p {
+  border-color: var(--Light-blue);
+  color: var(--Marine-blue);
+  background-color: var(--Light-blue);
+}
+
+.step-info-container p:first-child {
+  font-size: 13px;
+  color: hsl(231, 11%, 63%);
+}
+
+.step-info-container > p {
+  text-align: left;
+  margin: 0;
+}
+
+.step_form {
+  width: 478px;
+  height: 440px;
+
+  color: var(--Marine-blue);
+}
+
+form {
+  width: 478px;
+  height: 568px;
+  margin: 16px 116px;
+
+  position: relative;
+}
+
+form,
+.step_form > h2,
+.step_form > p{
+  text-align: left;
+}
+
+.step_form > h2 {
+  font-size: 40px;
+  padding: 30px 0 0px 0;
+  margin: 0;
+}
+
+.step_form > p {
+  font-size: 20px;
+  padding: 0 0 30px 0;
+  margin: 0;
+  color: var(--Cool-gray);
+}
+
+form label {
+  display: block;
+}
+
+form input {
+  width: 100%;
+  height: 48px;
+  padding: 6px 10px;
+  margin: 5px 0 15px 0;
+  border: 1px solid var(--Light-gray);
+  outline: none;
+  border-radius: 5px;
+  box-sizing: border-box;
+  display: block;
+  color: var(--Marine-blue);
+  background: var(--White);
+  cursor: pointer;
+}
+
+form input:focus {
+  border-color: var(--Purplish-blue);
+}
+
+form > button {
+  position: absolute;
+  bottom: 16px;
+  right: 0;
+  padding: 15px 20px;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+
+  font-size: 1.125rem;
+  background-color: var(--Marine-blue);
+}
+
+form > button:hover {
+  opacity: 0.7;
+}
+
+.previous_button {
+  left: 0;
+  width: 120px;
+  background-color: transparent;
+  color: var(--Marine-blue);
+}
+
+.Purple {
+  background-color: var(--Purplish-blue);
+}
+
+.planbuttons {
+  display: flex;
+  width: 478px;
+  justify-content: space-between;
+}
+
+.planbuttons > button {
+  display: flex;
+  flex-direction: column;
+
+  padding-left: 20px;
+
+  height: 160px;
+  width: 150px;
+  border-radius: 10px;
+  outline: var(--Cool-gray); 
+  box-shadow: none;
+  border: 1px solid var(--Cool-gray);
+
+  font-size: 18px;
+
+  color: var(--Marine-blue);
+  background-color: transparent;
+  text-align: left;
+}
+
+.planbuttons > button:hover {
+  border-color: var(--Purplish-blue); 
+}
+
+.planbuttons > button > img {
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+
+.planbuttons > button > p {
+  margin-bottom: 5px;
+  margin-top: 0;
+}
+
+.planbuttons > button > p:last-child {
+  color: var(--Cool-gray);
+}
+
