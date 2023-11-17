@@ -4,6 +4,7 @@ import "./fonts.css";
 import iconAdvancedSVG from "../resources/images/icon-advanced.svg";
 import iconArcadeSVG from "../resources/images/icon-arcade.svg";
 import iconProdSVG from "../resources/images/icon-pro.svg";
+import iconCheckmarkSVG from "../resources/images/icon-checkmark.svg";
 
 function App() {
   return (
@@ -121,9 +122,7 @@ function Multi_step_form({ callBack }) {
         {step === 1 && (
           <Step1 formData={formData} handleInputChange={handleInputChange} />
         )}
-        {step === 2 && (
-          <Step2 formData={formData} handleInputChange={handleInputChange} />
-        )}
+        {step === 2 && <Step2 formData={formData} />}
         {step === 3 && (
           <Step3 formData={formData} handleInputChange={handleInputChange} />
         )}
@@ -210,11 +209,12 @@ const PlanButtons = ({ onChange }) => {
           style={{
             background:
               selectedButton === "Arcade" ? "hsl(217, 100%, 97%)" : "",
+              borderColor: selectedButton === "Arcade" ? "hsl(243, 100%, 62%)" : "",
           }}
         >
           <img src={iconArcadeSVG} />
           <p>Arcade</p>
-          <p>{ toggle ? "$90/yr" : "$9/mo"}</p>
+          <p>{toggle ? "$90/yr" : "$9/mo"}</p>
         </button>
         <button
           type="button"
@@ -222,34 +222,34 @@ const PlanButtons = ({ onChange }) => {
           style={{
             background:
               selectedButton === "Advanced" ? "hsl(217, 100%, 97%)" : "",
+              borderColor: selectedButton === "Advanced" ? "hsl(243, 100%, 62%)" : "",
           }}
         >
           <img src={iconAdvancedSVG} />
           <p>Advanced</p>
-          <p>{ toggle ? "$120/yr" : "$12/mo"}</p>
+          <p>{toggle ? "$120/yr" : "$12/mo"}</p>
         </button>
         <button
           type="button"
           onClick={() => handleButtonClicked("Pro")}
           style={{
             background: selectedButton === "Pro" ? "hsl(217, 100%, 97%)" : "",
+            borderColor: selectedButton === "Pro" ? "hsl(243, 100%, 62%)" : "",
           }}
         >
           <img src={iconProdSVG} />
           <p>Pro</p>
-          <p>{ toggle ? "$150/yr" : "$15/mo"}</p>
+          <p>{toggle ? "$150/yr" : "$15/mo"}</p>
         </button>
       </div>
-      <div 
+      <div
         style={{ color: toggle ? "hsl(231, 11%, 63%)" : "hsl(213, 96%, 18%)" }}
         className="toggle"
       >
         <p>Monthly</p>
-        <button
-          type="button"
-          onClick={handletoggle}
-          className="toggle_button"
-        ><div style={{ left: toggle ? "22px" : "2px"}}></div></button>
+        <button type="button" onClick={handletoggle} className="toggle_button">
+          <div style={{ left: toggle ? "22px" : "2px" }}></div>
+        </button>
         <p
           style={{
             color: !toggle ? "hsl(231, 11%, 63%)" : "hsl(213, 96%, 18%)",
@@ -261,6 +261,7 @@ const PlanButtons = ({ onChange }) => {
     </div>
   );
 };
+
 function Step2({ formData, handleInputChange }) {
   return (
     <div className="step_form">
@@ -271,11 +272,54 @@ function Step2({ formData, handleInputChange }) {
   );
 }
 
+function CheckBox(props) {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleInputChange = () => {
+    setIsChecked(!isChecked);
+  };
+
+  return (
+    <label className={ isChecked ? "checkbox checkbox_active" : "checkbox"}>
+      <input
+        checked={isChecked}
+        onChange={handleInputChange}
+        type="checkbox"
+        id={props.id}
+      ></input>
+      <img src={iconCheckmarkSVG} />
+      <div>
+        <p>{props.title}</p>
+        <p>{props.description}</p>
+      </div>
+      <p>{props.price}</p>
+    </label>
+  );
+}
+
 function Step3({ formData, handleInputChange }) {
   return (
-    <div className="step_form">
+    <div className="step_form step3">
       <h2>Pick add-ons</h2>
       <p>Add-ons help inhance your gaming experience.</p>
+      <CheckBox
+        id="online_services"
+        title="Online services"
+        description="Access to multiplayer games"
+        price="+$1/mo"
+      />
+      <CheckBox
+        id="larger_storage"
+        title="Larger storage"
+        description="Extra 1TB of cloud save"
+        price="+2$/mo"
+      />
+      <CheckBox
+        id="customizable_profile"
+        title="Customizable profile"
+        description="Custom theme on your profile"
+        price="+$2/mo"
+      />
     </div>
   );
 }

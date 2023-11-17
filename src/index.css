@@ -98,7 +98,7 @@ body {
 }
 
 .step_form {
-  width: 478px;
+  width: inherit;
   height: 440px;
 
   color: var(--Marine-blue);
@@ -150,7 +150,7 @@ form input {
   cursor: pointer;
 }
 
-form input:focus {
+.form_step_one input:focus {
   border-color: var(--Purplish-blue);
 }
 
@@ -191,15 +191,15 @@ form > button:hover {
 .planbuttons > button {
   display: flex;
   flex-direction: column;
+  align-items: start;
 
   padding-left: 20px;
 
   height: 160px;
   width: 150px;
   border-radius: 10px;
-  outline: var(--Cool-gray); 
   box-shadow: none;
-  border: 1px solid var(--Cool-gray);
+  border: 1px solid var(--Light-gray);
 
   font-size: 18px;
 
@@ -260,4 +260,59 @@ form > button:hover {
   background-color: var(--White);
   border-radius: 50%;
   transition-duration: 100ms;
+}
+
+.checkbox{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 10px;
+  width: 100%;
+  margin-bottom: 16px;
+  border: 1px solid var(--Light-gray);
+}
+
+.checkbox:hover,
+.checkbox_active {
+  outline: 1px solid var(--Purplish-blue);
+}
+
+.checkbox_active {
+  background-color: var(--Magnolia);
+}
+
+.checkbox > input {
+  height: 20px;
+  width: 20px;
+  margin: 0;
+  appearance: none;
+  border: 1px solid var(--Light-gray);
+}
+
+.checkbox > input:checked {
+  background-color: var(--Purplish-blue);
+  border-color: var(--Purplish-blue);
+}
+
+.checkbox > div {
+  width: 60%;
+}
+
+.checkbox > div > p {
+  margin: auto 0;
+}
+
+.checkbox > div > p:first-child {
+  margin-top: 16px;
+}
+
+.checkbox > div > p:last-child {
+  color: var(--Cool-gray);
+  margin-bottom: 16px;
+}
+
+.checkbox > img {
+  position: absolute;
+  left: 34px;
+  z-index: 1;
 }

@@ -16,7 +16,8 @@ form > button {
 
 input,
 input::placeholder,
-.planbuttons > button {
+.planbuttons > button,
+.checkbox > div > p:first-child {
   font-family: Ubuntu-Medium;
 }
 
