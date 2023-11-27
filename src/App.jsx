@@ -1,10 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import "./fonts.css";
+import { useSelector, useDispatch } from "react-redux";
+import { selectToggled, toggle } from "./appStates/mo_yrSlice.js";
+import { selectSum, addSum, setSum } from "./appStates/sumSlice.js";
 import iconAdvancedSVG from "../resources/images/icon-advanced.svg";
 import iconArcadeSVG from "../resources/images/icon-arcade.svg";
 import iconProdSVG from "../resources/images/icon-pro.svg";
 import iconCheckmarkSVG from "../resources/images/icon-checkmark.svg";
+import {
+  selectedAddon,
+  addAddon,
+  removeAddon,
+  replacePrice,
+} from "./appStates/add_onsSlice.js";
+import { selectedChecked, toggleChecked } from "./appStates/isCheckedSlice.js";
+import { selectPlan, changeSelectedPlan } from "./appStates/selectedButton.js";
 
 function App() {
   return (
@@ -122,10 +133,8 @@ function Multi_step_form({ callBack }) {
         {step === 1 && (
           <Step1 formData={formData} handleInputChange={handleInputChange} />
         )}
-        {step === 2 && <Step2 formData={formData} />}
-        {step === 3 && (
-          <Step3 formData={formData} handleInputChange={handleInputChange} />
-        )}
+        {step === 2 && <Step2 />}
+        {step === 3 && <Step3 formData={formData} />}
         {step === 4 && (
           <Step4 formData={formData} handleInputChange={handleInputChange} />
         )}
@@ -184,106 +193,124 @@ function Step1({ formData, handleInputChange }) {
   );
 }
 
-const PlanButtons = ({ onChange }) => {
-  const [selectedButton, setSelectedButton] = useState("Arcade");
-  const [toggle, setToggle] = useState(false);
+const PlanButtons = () => {
+  const toggled = useSelector(selectToggled);
+  const dispatch = useDispatch();
+  const Plan = useSelector(selectPlan);
 
-  const handleButtonClicked = (value) => {
-    setSelectedButton(value);
-
-    if (onChange) {
-      onChange(value);
+  useEffect(() => {
+    if (toggled) {
+      if (Plan == "Arcade") {
+        dispatch(setSum(90));
+      } else if (Plan == "Advanced") {
+        dispatch(setSum(120));
+      } else {
+        dispatch(setSum(150));
+      }
+    } else {
+      if (Plan == "Arcade") {
+        dispatch(setSum(9));
+      } else if (Plan == "Advanced") {
+        dispatch(setSum(12));
+      } else {
+        dispatch(setSum(15));
+      }
     }
-  };
-
-  const handletoggle = () => {
-    setToggle(!toggle);
-  };
-
+  }, [toggled, Plan]);
   return (
     <div>
       <div className="planbuttons">
         <button
           type="button"
-          onClick={() => handleButtonClicked("Arcade")}
+          onClick={() => dispatch(changeSelectedPlan("Arcade"))}
           style={{
-            background:
-              selectedButton === "Arcade" ? "hsl(217, 100%, 97%)" : "",
-              borderColor: selectedButton === "Arcade" ? "hsl(243, 100%, 62%)" : "",
+            background: Plan === "Arcade" ? "hsl(217, 100%, 97%)" : "",
+            borderColor: Plan === "Arcade" ? "hsl(243, 100%, 62%)" : "",
           }}
         >
           <img src={iconArcadeSVG} />
           <p>Arcade</p>
-          <p>{toggle ? "$90/yr" : "$9/mo"}</p>
+          <p>{toggled ? "$90/yr" : "$9/mo"}</p>
         </button>
         <button
           type="button"
-          onClick={() => handleButtonClicked("Advanced")}
+          onClick={() => dispatch(changeSelectedPlan("Advanced"))}
           style={{
-            background:
-              selectedButton === "Advanced" ? "hsl(217, 100%, 97%)" : "",
-              borderColor: selectedButton === "Advanced" ? "hsl(243, 100%, 62%)" : "",
+            background: Plan === "Advanced" ? "hsl(217, 100%, 97%)" : "",
+            borderColor: Plan === "Advanced" ? "hsl(243, 100%, 62%)" : "",
           }}
         >
           <img src={iconAdvancedSVG} />
           <p>Advanced</p>
-          <p>{toggle ? "$120/yr" : "$12/mo"}</p>
+          <p>{toggled ? "$120/yr" : "$12/mo"}</p>
         </button>
         <button
           type="button"
-          onClick={() => handleButtonClicked("Pro")}
+          onClick={() => dispatch(changeSelectedPlan("Pro"))}
           style={{
-            background: selectedButton === "Pro" ? "hsl(217, 100%, 97%)" : "",
-            borderColor: selectedButton === "Pro" ? "hsl(243, 100%, 62%)" : "",
+            background: Plan === "Pro" ? "hsl(217, 100%, 97%)" : "",
+            borderColor: Plan === "Pro" ? "hsl(243, 100%, 62%)" : "",
           }}
         >
           <img src={iconProdSVG} />
           <p>Pro</p>
-          <p>{toggle ? "$150/yr" : "$15/mo"}</p>
+          <p>{toggled ? "$150/yr" : "$15/mo"}</p>
         </button>
       </div>
       <div
-        style={{ color: toggle ? "hsl(231, 11%, 63%)" : "hsl(213, 96%, 18%)" }}
+        style={{ color: toggled ? "hsl(231, 11%, 63%)" : "hsl(213, 96%, 18%)" }}
         className="toggle"
       >
         <p>Monthly</p>
-        <button type="button" onClick={handletoggle} className="toggle_button">
-          <div style={{ left: toggle ? "22px" : "2px" }}></div>
+        <button
+          type="button"
+          onClick={() => dispatch(toggle())}
+          className="toggle_button"
+        >
+          <div style={{ left: toggled ? "22px" : "2px" }}></div>
         </button>
         <p
           style={{
-            color: !toggle ? "hsl(231, 11%, 63%)" : "hsl(213, 96%, 18%)",
+            color: !toggled ? "hsl(231, 11%, 63%)" : "hsl(213, 96%, 18%)",
           }}
         >
-          Yearly
+          Yearly{/* {sum} */}
         </p>
       </div>
     </div>
   );
 };
 
-function Step2({ formData, handleInputChange }) {
+function Step2() {
   return (
     <div className="step_form">
       <h2>Select you plan</h2>
       <p>You have the option of monthly or yearly billing.</p>
-      <PlanButtons onChange={handleInputChange} />
+      <PlanButtons />
     </div>
   );
 }
 
 function CheckBox(props) {
-  const [isChecked, setIsChecked] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleInputChange = () => {
-    setIsChecked(!isChecked);
-  };
+  useEffect(() => {
+    if (props.checked) {
+      dispatch(addAddon({ title: props.title, price: props.price }));
+    } else {
+      dispatch(removeAddon({ title: props.title, price: props.price }));
+    }
+  }, [props.checked]);
+
+  useEffect(() => {
+    dispatch(replacePrice({ title: props.title, price: props.price }));
+  }, [props.price]);
 
   return (
-    <label className={ isChecked ? "checkbox checkbox_active" : "checkbox"}>
+    <label className={props.checked ? "checkbox checkbox_active" : "checkbox"}>
       <input
-        checked={isChecked}
-        onChange={handleInputChange}
+        checked={props.checked}
+        onChange={() => dispatch(toggleChecked(props.index))}
         type="checkbox"
         id={props.id}
       ></input>
@@ -298,37 +325,94 @@ function CheckBox(props) {
 }
 
 function Step3({ formData, handleInputChange }) {
+  const toggled = useSelector(selectToggled);
+  const addons = useSelector(selectedAddon);
+  const isChecked = useSelector(selectedChecked);
+
   return (
     <div className="step_form step3">
       <h2>Pick add-ons</h2>
       <p>Add-ons help inhance your gaming experience.</p>
       <CheckBox
+        checked={isChecked[0]}
+        index={0}
         id="online_services"
         title="Online services"
         description="Access to multiplayer games"
-        price="+$1/mo"
+        price={toggled ? "+$10/yr" : "+$1/mo"}
       />
       <CheckBox
+        checked={isChecked[1]}
+        index={1}
         id="larger_storage"
         title="Larger storage"
         description="Extra 1TB of cloud save"
-        price="+2$/mo"
+        price={toggled ? "+$20/yr" : "+2$/mo"}
       />
       <CheckBox
+        checked={isChecked[2]}
+        index={2}
         id="customizable_profile"
         title="Customizable profile"
         description="Custom theme on your profile"
-        price="+$2/mo"
+        price={toggled ? "+$20/yr" : "+$2/mo"}
       />
+      {/* {addons.map(addon => (
+        <div key={`${addon.title}-${addon.price}`}>
+          <p>Title: {addon.title}</p>
+          <p>Price: {addon.price}</p>
+        </div>
+      ))} */}
     </div>
   );
 }
 
 function Step4({ formData, handleInputChange }) {
+  const sum = useSelector(selectSum);
+  const toggled = useSelector(selectToggled);
+  const Plan = useSelector(selectPlan);
+  const addons = useSelector(selectedAddon);
+
   return (
     <div className="step_form">
       <h2>Finishing up</h2>
       <p>Double-check everything looks OK before confirming.</p>
+      <div className="plan-showOff">
+        <div className="plan-showOff-header">
+          <div>
+            <div>
+              {Plan}
+              {toggled ? " (Yearly)" : " (Monthly)"}
+            </div>
+            <div>
+              <button
+                className="plan-showOff-button"
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
+              >
+                Change
+              </button>
+            </div>
+          </div>
+          <div>
+            ${sum}
+            {toggled ? "/yr" : "/mo"}
+          </div>
+        </div>
+        <div className="plan-showOff-line"></div>
+        <div className="list-addons">
+          {addons.map((addon) => (
+            <div
+              className="plan-showOff-addons"
+              key={`${addon.title}-${addon.price}`}
+            >
+              <p>{addon.title}</p>
+              <p>{addon.price}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
