@@ -4,6 +4,7 @@ import sumReducer from '../src/appStates/sumSlice'
 import add_onsReducer from '../src/appStates/add_onsSlice'
 import isCheckedReducer from '../src/appStates/isCheckedSlice'
 import selectedButtonReducer from '../src/appStates/selectedButton'
+import stepCounterReducer from '../src/appStates/step_counterSlice'
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
     add_ons: add_onsReducer,
     isChecked: isCheckedReducer,
     PlanType: selectedButtonReducer,
+    step_counter: stepCounterReducer,
   },
 })

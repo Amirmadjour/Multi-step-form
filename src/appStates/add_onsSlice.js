@@ -13,7 +13,7 @@ export const add_onsSlice = createSlice({
       }
     },
     removeAddon: (state, action) => {
-      const {title, price} = action.payload;
+      const {title} = action.payload;
       if(state.value.some(addon => addon.title === title)){
         state.value = state.value.filter(item => item.title !== title);
       }

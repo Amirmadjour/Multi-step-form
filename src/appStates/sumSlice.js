@@ -14,9 +14,12 @@ export const sumSlice = createSlice({
     setSum: (state, action) => {
       state.value = action.payload;
     },
+    subtractSum: (state, action) => {
+      state.value -= action.payload;
+    }
   },
 })
 
-export const { addSum, setSum } = sumSlice.actions
+export const { addSum, subtractSum ,setSum } = sumSlice.actions
 export const selectSum = (state) => state.sum.value
 export default sumSlice.reducer

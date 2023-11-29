@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import "./fonts.css";
 import { useSelector, useDispatch } from "react-redux";
 import { selectToggled, toggle } from "./appStates/mo_yrSlice.js";
-import { selectSum, addSum, setSum } from "./appStates/sumSlice.js";
+import {
+  selectSum,
+  addSum,
+  subtractSum,
+  setSum,
+} from "./appStates/sumSlice.js";
 import iconAdvancedSVG from "../resources/images/icon-advanced.svg";
 import iconArcadeSVG from "../resources/images/icon-arcade.svg";
 import iconProdSVG from "../resources/images/icon-pro.svg";
@@ -16,6 +21,11 @@ import {
 } from "./appStates/add_onsSlice.js";
 import { selectedChecked, toggleChecked } from "./appStates/isCheckedSlice.js";
 import { selectPlan, changeSelectedPlan } from "./appStates/selectedButton.js";
+import {
+  selectStepCounter,
+  handleNextStep,
+  handlePreviousStep,
+} from "./appStates/step_counterSlice.js";
 
 function App() {
   return (
@@ -26,56 +36,43 @@ function App() {
 }
 
 function Mainwindow() {
-  const [step, setStep] = useState(1);
-
-  const determineStep = (value) => {
-    setStep(value);
-  };
-
   return (
     <div className="mainwindow">
-      <Sidebar steps={step} />
-      <Multi_step_form callBack={determineStep} />
+      <Sidebar steps />
+      <Multi_step_form />
     </div>
   );
 }
 
 function Sidebar(props) {
+  const steps = useSelector(selectStepCounter);
   return (
     <div className="sidebar">
       <div className="info-bar">
         <Barstep
           className={
-            props.steps === 1
-              ? "step-container step-activated"
-              : "step-container"
+            steps === 1 ? "step-container step-activated" : "step-container"
           }
           number="1"
           info="YOUR INFO"
         ></Barstep>
         <Barstep
           className={
-            props.steps === 2
-              ? "step-container step-activated"
-              : "step-container"
+            steps === 2 ? "step-container step-activated" : "step-container"
           }
           number="2"
           info="SELECT PLAN"
         ></Barstep>
         <Barstep
           className={
-            props.steps === 3
-              ? "step-container step-activated"
-              : "step-container"
+            steps === 3 ? "step-container step-activated" : "step-container"
           }
           number="3"
           info="ADD-ONS"
         ></Barstep>
         <Barstep
           className={
-            props.steps === 4
-              ? "step-container step-activated"
-              : "step-container"
+            steps === 4 ? "step-container step-activated" : "step-container"
           }
           number="4"
           info="SUMMERY"
@@ -97,8 +94,9 @@ function Barstep(props) {
   );
 }
 
-function Multi_step_form({ callBack }) {
-  const [step, setStep] = useState(1);
+function Multi_step_form() {
+  const step = useSelector(selectStepCounter);
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -109,18 +107,6 @@ function Multi_step_form({ callBack }) {
 
   const Next_confirm = step === 4 ? "Confirm" : "Next Step";
   const Next_class_name = step === 4 ? "Purple" : "";
-
-  const handleNext = (e) => {
-    e.preventDefault();
-    setStep(step + 1);
-    callBack(step + 1);
-  };
-
-  const handlePrevious = (e) => {
-    e.preventDefault();
-    setStep(step - 1);
-    callBack(step - 1);
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -135,14 +121,24 @@ function Multi_step_form({ callBack }) {
         )}
         {step === 2 && <Step2 />}
         {step === 3 && <Step3 formData={formData} />}
-        {step === 4 && (
-          <Step4 formData={formData} handleInputChange={handleInputChange} />
-        )}
-        <button className={Next_class_name} onClick={handleNext}>
+        {step === 4 && <Step4 />}
+        <button
+          className={Next_class_name}
+          onClick={(e) => {
+            dispatch(handleNextStep());
+            e.preventDefault();
+          }}
+        >
           {Next_confirm}
         </button>
         {step !== 1 && (
-          <button className="previous_button" onClick={handlePrevious}>
+          <button
+            className="previous_button"
+            onClick={(e) => {
+              dispatch(handlePreviousStep());
+              e.preventDefault();
+            }}
+          >
             Previous
           </button>
         )}
@@ -198,25 +194,6 @@ const PlanButtons = () => {
   const dispatch = useDispatch();
   const Plan = useSelector(selectPlan);
 
-  useEffect(() => {
-    if (toggled) {
-      if (Plan == "Arcade") {
-        dispatch(setSum(90));
-      } else if (Plan == "Advanced") {
-        dispatch(setSum(120));
-      } else {
-        dispatch(setSum(150));
-      }
-    } else {
-      if (Plan == "Arcade") {
-        dispatch(setSum(9));
-      } else if (Plan == "Advanced") {
-        dispatch(setSum(12));
-      } else {
-        dispatch(setSum(15));
-      }
-    }
-  }, [toggled, Plan]);
   return (
     <div>
       <div className="planbuttons">
@@ -274,7 +251,7 @@ const PlanButtons = () => {
             color: !toggled ? "hsl(231, 11%, 63%)" : "hsl(213, 96%, 18%)",
           }}
         >
-          Yearly{/* {sum} */}
+          Yearly
         </p>
       </div>
     </div>
@@ -298,7 +275,7 @@ function CheckBox(props) {
     if (props.checked) {
       dispatch(addAddon({ title: props.title, price: props.price }));
     } else {
-      dispatch(removeAddon({ title: props.title, price: props.price }));
+      dispatch(removeAddon({ title: props.title }));
     }
   }, [props.checked]);
 
@@ -324,9 +301,8 @@ function CheckBox(props) {
   );
 }
 
-function Step3({ formData, handleInputChange }) {
+function Step3() {
   const toggled = useSelector(selectToggled);
-  const addons = useSelector(selectedAddon);
   const isChecked = useSelector(selectedChecked);
 
   return (
@@ -347,7 +323,7 @@ function Step3({ formData, handleInputChange }) {
         id="larger_storage"
         title="Larger storage"
         description="Extra 1TB of cloud save"
-        price={toggled ? "+$20/yr" : "+2$/mo"}
+        price={toggled ? "+$20/yr" : "+$2/mo"}
       />
       <CheckBox
         checked={isChecked[2]}
@@ -357,21 +333,56 @@ function Step3({ formData, handleInputChange }) {
         description="Custom theme on your profile"
         price={toggled ? "+$20/yr" : "+$2/mo"}
       />
-      {/* {addons.map(addon => (
-        <div key={`${addon.title}-${addon.price}`}>
-          <p>Title: {addon.title}</p>
-          <p>Price: {addon.price}</p>
-        </div>
-      ))} */}
     </div>
   );
 }
 
-function Step4({ formData, handleInputChange }) {
+function Step4() {
   const sum = useSelector(selectSum);
+  const [planPrice, setPlanPrice] = useState(0)
   const toggled = useSelector(selectToggled);
   const Plan = useSelector(selectPlan);
   const addons = useSelector(selectedAddon);
+  const dispatch = useDispatch();
+  const effectRan = useRef(false);
+
+  useEffect(() => {
+    if (effectRan.current === false) {
+      if (toggled) {
+        if (Plan === "Arcade") {
+          dispatch(setSum(90));
+          setPlanPrice(90)
+        } else if (Plan === "Advanced") {
+          dispatch(setSum(120));
+          setPlanPrice(120)
+        } else {
+          dispatch(setSum(150));
+          setPlanPrice(150)
+        }
+        addons.map((addon) => {
+          dispatch(addSum(parseInt(addon.price.substring(2, 4), 10)));
+        });
+      } else {
+        if (Plan === "Arcade") {
+          dispatch(setSum(9));
+          setPlanPrice(9)
+        } else if (Plan === "Advanced") {
+          dispatch(setSum(12));
+          setPlanPrice(12)
+        } else {
+          dispatch(setSum(15));
+          setPlanPrice(15)
+        }
+        addons.map((addon) => {
+          dispatch(addSum(parseInt(addon.price.substring(2, 3), 10)));
+        });
+      }
+      console.log("useEffect rendered");
+    }
+    return () => {
+      effectRan.current = true;
+    };
+  }, [toggled, addons]);
 
   return (
     <div className="step_form">
@@ -396,7 +407,7 @@ function Step4({ formData, handleInputChange }) {
             </div>
           </div>
           <div>
-            ${sum}
+            ${planPrice}
             {toggled ? "/yr" : "/mo"}
           </div>
         </div>
@@ -412,6 +423,7 @@ function Step4({ formData, handleInputChange }) {
             </div>
           ))}
         </div>
+        {sum}
       </div>
     </div>
   );
