@@ -14,9 +14,12 @@ export const step_counterSlice = createSlice({
     handlePreviousStep: state => {
       state.value -= 1;
     },
+    handleChange: state => {
+      state.value -= 2;
+    },
   },
 })
 
-export const { handleNextStep, handlePreviousStep } = step_counterSlice.actions
+export const { handleNextStep, handlePreviousStep, handleChange } = step_counterSlice.actions
 export const selectStepCounter = (state) => state.step_counter.value
 export default step_counterSlice.reducer
