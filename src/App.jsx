@@ -181,7 +181,9 @@ function Step1({ formData, handleInputChange }) {
       <h2 className="personal_info">Personal info</h2>
       <p>Please provide your name, email and phone number.</p>
       <label htmlFor="name">Name</label>
-      {filled === 1 && !formData.name.trim() && (<p className="required_phrase">This field is required</p>)}
+      {filled === 1 && !formData.name.trim() && (
+        <p className="required_phrase">This field is required</p>
+      )}
       <input
         className={filled === 1 && !formData.name.trim() ? "required" : ""}
         type="text"
@@ -194,7 +196,9 @@ function Step1({ formData, handleInputChange }) {
         required
       ></input>
       <label htmlFor="email">Email Address</label>
-      {filled === 2 && !formData.email.trim() && (<p className="required_phrase">This field is required</p>)}
+      {filled === 2 && !formData.email.trim() && (
+        <p className="required_phrase">This field is required</p>
+      )}
       <input
         className={filled === 2 && !formData.email.trim() ? "required" : ""}
         type="text"
@@ -207,7 +211,9 @@ function Step1({ formData, handleInputChange }) {
         required
       ></input>
       <label htmlFor="phone">Phone Number</label>
-      {filled === 3 && !formData.phone.trim() && (<p className="required_phrase">This field is required</p>)}
+      {filled === 3 && !formData.phone.trim() && (
+        <p className="required_phrase">This field is required</p>
+      )}
       <input
         className={filled === 3 && !formData.phone.trim() ? "required" : ""}
         type="text"
@@ -220,7 +226,7 @@ function Step1({ formData, handleInputChange }) {
         required
       ></input>
       <button type="button" onClick={handleCheckFields}>
-        Check Fields
+        Next Step
       </button>
     </div>
   );
