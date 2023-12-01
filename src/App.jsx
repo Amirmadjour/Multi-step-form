@@ -3,16 +3,12 @@ import "./App.css";
 import "./fonts.css";
 import { useSelector, useDispatch } from "react-redux";
 import { selectToggled, toggle } from "./appStates/mo_yrSlice.js";
-import {
-  selectSum,
-  addSum,
-  subtractSum,
-  setSum,
-} from "./appStates/sumSlice.js";
+import { selectSum, addSum, setSum } from "./appStates/sumSlice.js";
 import iconAdvancedSVG from "../resources/images/icon-advanced.svg";
 import iconArcadeSVG from "../resources/images/icon-arcade.svg";
 import iconProdSVG from "../resources/images/icon-pro.svg";
 import iconCheckmarkSVG from "../resources/images/icon-checkmark.svg";
+import iconThankYouSVG from "../resources/images/icon-thank-you.svg";
 import {
   selectedAddon,
   addAddon,
@@ -25,7 +21,12 @@ import {
   selectStepCounter,
   handleNextStep,
   handlePreviousStep,
+  handleChange,
 } from "./appStates/step_counterSlice.js";
+import {
+  selectFormSubmission,
+  submit_form,
+} from "./appStates/form_submitted.js";
 
 function App() {
   return (
@@ -72,7 +73,7 @@ function Sidebar(props) {
         ></Barstep>
         <Barstep
           className={
-            steps === 4 ? "step-container step-activated" : "step-container"
+            steps >= 4 ? "step-container step-activated" : "step-container"
           }
           number="4"
           info="SUMMERY"
@@ -96,13 +97,12 @@ function Barstep(props) {
 
 function Multi_step_form() {
   const step = useSelector(selectStepCounter);
+  const form_sbm = useSelector(selectFormSubmission);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    plan: "",
-    addons: "",
   });
 
   const Next_confirm = step === 4 ? "Confirm" : "Next Step";
@@ -115,45 +115,75 @@ function Multi_step_form() {
 
   return (
     <>
-      <form>
-        {step === 1 && (
-          <Step1 formData={formData} handleInputChange={handleInputChange} />
-        )}
-        {step === 2 && <Step2 />}
-        {step === 3 && <Step3 formData={formData} />}
-        {step === 4 && <Step4 />}
-        <button
-          className={Next_class_name}
-          onClick={(e) => {
-            dispatch(handleNextStep());
-            e.preventDefault();
-          }}
-        >
-          {Next_confirm}
-        </button>
-        {step !== 1 && (
-          <button
-            className="previous_button"
-            onClick={(e) => {
-              dispatch(handlePreviousStep());
-              e.preventDefault();
-            }}
-          >
-            Previous
-          </button>
-        )}
-      </form>
+      {step <= 4 && !form_sbm && (
+        <form>
+          {step === 1 && (
+            <Step1 formData={formData} handleInputChange={handleInputChange} />
+          )}
+          {step === 2 && <Step2 />}
+          {step === 3 && <Step3 />}
+          {step === 4 && <Step4 />}
+          {step !== 1 && (
+            <button
+              className={Next_class_name}
+              onClick={(e) => {
+                if (step < 4) {
+                  e.preventDefault();
+                  dispatch(handleNextStep());
+                } else {
+                  dispatch(submit_form());
+                  setTimeout(() => {
+                    window.location.reload();
+                    dispatch(submit_form());
+                  }, 2000);
+                }
+              }}
+            >
+              {Next_confirm}
+            </button>
+          )}
+
+          {step !== 1 && (
+            <button
+              className="previous_button"
+              onClick={(e) => {
+                dispatch(handlePreviousStep());
+                e.preventDefault();
+              }}
+            >
+              Previous
+            </button>
+          )}
+        </form>
+      )}
+      {form_sbm && <ThankYouStep />}
     </>
   );
 }
 
 function Step1({ formData, handleInputChange }) {
+  const dispatch = useDispatch();
+  const [filled, setFilled] = useState(null);
+  const handleCheckFields = () => {
+    if (!formData.name.trim()) {
+      setFilled(1);
+    } else if (!formData.email.trim()) {
+      setFilled(2);
+    } else if (!formData.phone.trim()) {
+      setFilled(3);
+    } else {
+      dispatch(handleNextStep());
+    }
+  };
+
   return (
     <div className="step_form form_step_one">
       <h2 className="personal_info">Personal info</h2>
       <p>Please provide your name, email and phone number.</p>
       <label htmlFor="name">Name</label>
+      {filled === 1 && !formData.name.trim() && (<p className="required_phrase">This field is required</p>)}
       <input
+        className={filled === 1 && !formData.name.trim() ? "required" : ""}
         type="text"
         placeholder="e.g. Amar Mansour"
         name="name"
@@ -164,7 +194,9 @@ function Step1({ formData, handleInputChange }) {
         required
       ></input>
       <label htmlFor="email">Email Address</label>
+      {filled === 2 && !formData.email.trim() && (<p className="required_phrase">This field is required</p>)}
       <input
+        className={filled === 2 && !formData.email.trim() ? "required" : ""}
         type="text"
         placeholder="e.g. someting10@gmail.com"
         name="email"
@@ -175,7 +207,9 @@ function Step1({ formData, handleInputChange }) {
         required
       ></input>
       <label htmlFor="phone">Phone Number</label>
+      {filled === 3 && !formData.phone.trim() && (<p className="required_phrase">This field is required</p>)}
       <input
+        className={filled === 3 && !formData.phone.trim() ? "required" : ""}
         type="text"
         placeholder="e.g. 0512345678"
         name="phone"
@@ -185,6 +219,9 @@ function Step1({ formData, handleInputChange }) {
         autoComplete="off"
         required
       ></input>
+      <button type="button" onClick={handleCheckFields}>
+        Check Fields
+      </button>
     </div>
   );
 }
@@ -339,7 +376,7 @@ function Step3() {
 
 function Step4() {
   const sum = useSelector(selectSum);
-  const [planPrice, setPlanPrice] = useState(0)
+  const [planPrice, setPlanPrice] = useState(0);
   const toggled = useSelector(selectToggled);
   const Plan = useSelector(selectPlan);
   const addons = useSelector(selectedAddon);
@@ -351,13 +388,13 @@ function Step4() {
       if (toggled) {
         if (Plan === "Arcade") {
           dispatch(setSum(90));
-          setPlanPrice(90)
+          setPlanPrice(90);
         } else if (Plan === "Advanced") {
           dispatch(setSum(120));
-          setPlanPrice(120)
+          setPlanPrice(120);
         } else {
           dispatch(setSum(150));
-          setPlanPrice(150)
+          setPlanPrice(150);
         }
         addons.map((addon) => {
           dispatch(addSum(parseInt(addon.price.substring(2, 4), 10)));
@@ -365,19 +402,18 @@ function Step4() {
       } else {
         if (Plan === "Arcade") {
           dispatch(setSum(9));
-          setPlanPrice(9)
+          setPlanPrice(9);
         } else if (Plan === "Advanced") {
           dispatch(setSum(12));
-          setPlanPrice(12)
+          setPlanPrice(12);
         } else {
           dispatch(setSum(15));
-          setPlanPrice(15)
+          setPlanPrice(15);
         }
         addons.map((addon) => {
           dispatch(addSum(parseInt(addon.price.substring(2, 3), 10)));
         });
       }
-      console.log("useEffect rendered");
     }
     return () => {
       effectRan.current = true;
@@ -400,6 +436,7 @@ function Step4() {
                 className="plan-showOff-button"
                 onClick={(e) => {
                   e.preventDefault();
+                  dispatch(handleChange());
                 }}
               >
                 Change
@@ -423,7 +460,28 @@ function Step4() {
             </div>
           ))}
         </div>
-        {sum}
+      </div>
+      <div className="total">
+        <p>Total (per {toggled ? "year" : "month"})</p>
+        <div>
+          ${sum}/{toggled ? "yr" : "mo"}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ThankYouStep() {
+  return (
+    <div className="thank-you">
+      <div>
+        <img src={iconThankYouSVG}></img>
+        <p>Thank You!</p>
+        <p>
+          Thanks for confirming your subscribtion! We hope you have fun using
+          our platform. If you ever need support, please feel free to email us
+          at support@loremgaming.com
+        </p>
       </div>
     </div>
   );

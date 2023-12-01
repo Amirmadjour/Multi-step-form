@@ -1,3 +1,2 @@
-```The button Change```
-```The Thank you screen```
+```The two month on the plan buttons after the user switches to yearly```
 ```Responsiveness```

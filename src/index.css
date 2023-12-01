@@ -47,7 +47,7 @@ body {
   background-color: white;
 }
 
-.mainwindow > p {
+.mainwindow>p {
   color: black;
 }
 
@@ -72,7 +72,7 @@ body {
   gap: 1rem;
 }
 
-.step-container > p {
+.step-container>p {
   height: 35px;
   width: 35px;
   border: 1px white solid;
@@ -81,7 +81,7 @@ body {
   line-height: 2.125;
 }
 
-.step-activated > p {
+.step-activated>p {
   border-color: var(--Light-blue);
   color: var(--Marine-blue);
   background-color: var(--Light-blue);
@@ -92,7 +92,7 @@ body {
   color: hsl(231, 11%, 63%);
 }
 
-.step-info-container > p {
+.step-info-container>p {
   text-align: left;
   margin: 0;
 }
@@ -113,18 +113,18 @@ form {
 }
 
 form,
-.step_form > h2,
-.step_form > p{
+.step_form>h2,
+.step_form>p {
   text-align: left;
 }
 
-.step_form > h2 {
+.step_form>h2 {
   font-size: 40px;
   padding: 30px 0 0px 0;
   margin: 0;
 }
 
-.step_form > p {
+.step_form>p {
   font-size: 20px;
   padding: 0 0 30px 0;
   margin: 0;
@@ -132,10 +132,11 @@ form,
 }
 
 form label {
-  display: block;
+  display: inline-block;
 }
 
 form input {
+  position: relative;
   width: 100%;
   height: 48px;
   padding: 6px 10px;
@@ -150,11 +151,23 @@ form input {
   cursor: pointer;
 }
 
+p.required_phrase {
+  padding: 0;
+  font-size: 15px;
+  float: right;
+  color: var(--Strawberry-red);
+}
+
 .form_step_one input:focus {
   border-color: var(--Purplish-blue);
 }
 
-form > button {
+.required {
+  border-color: var(--Strawberry-red);
+}
+
+.form_step_one>button,
+form>button {
   position: absolute;
   bottom: 16px;
   right: 0;
@@ -167,7 +180,8 @@ form > button {
   background-color: var(--Marine-blue);
 }
 
-form > button:hover {
+.form_step_one>button:hover,
+form>button:hover {
   opacity: 0.7;
 }
 
@@ -188,7 +202,7 @@ form > button:hover {
   justify-content: space-between;
 }
 
-.planbuttons > button {
+.planbuttons>button {
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -208,21 +222,21 @@ form > button:hover {
   text-align: left;
 }
 
-.planbuttons > button:hover {
-  border-color: var(--Purplish-blue); 
+.planbuttons>button:hover {
+  border-color: var(--Purplish-blue);
 }
 
-.planbuttons > button > img {
+.planbuttons>button>img {
   padding-top: 20px;
   padding-bottom: 40px;
 }
 
-.planbuttons > button > p {
+.planbuttons>button>p {
   margin-bottom: 5px;
   margin-top: 0;
 }
 
-.planbuttons > button > p:last-child {
+.planbuttons>button>p:last-child {
   color: var(--Cool-gray);
 }
 
@@ -253,7 +267,7 @@ form > button:hover {
   background-color: var(--Marine-blue);
 }
 
-.toggle_button > div {
+.toggle_button>div {
   height: 16px;
   width: 16px;
   position: absolute;
@@ -262,7 +276,7 @@ form > button:hover {
   transition-duration: 100ms;
 }
 
-.checkbox{
+.checkbox {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -281,7 +295,7 @@ form > button:hover {
   background-color: var(--Magnolia);
 }
 
-.checkbox > input {
+.checkbox>input {
   height: 20px;
   width: 20px;
   margin: 0;
@@ -289,35 +303,35 @@ form > button:hover {
   border: 1px solid var(--Light-gray);
 }
 
-.checkbox > input:checked {
+.checkbox>input:checked {
   background-color: var(--Purplish-blue);
   border-color: var(--Purplish-blue);
 }
 
-.checkbox > div {
+.checkbox>div {
   width: 60%;
 }
 
-.checkbox > div > p {
+.checkbox>div>p {
   margin: auto 0;
 }
 
-.checkbox > div > p:first-child {
+.checkbox>div>p:first-child {
   margin-top: 16px;
 }
 
-.checkbox > div > p:last-child {
+.checkbox>div>p:last-child {
   color: var(--Cool-gray);
   margin-bottom: 16px;
 }
 
-.checkbox > img {
+.checkbox>img {
   position: absolute;
   left: 34px;
   z-index: 1;
 }
 
-.checkbox > p {
+.checkbox>p {
   color: var(--Purplish-blue);
 }
 
@@ -342,6 +356,10 @@ form > button:hover {
   margin-bottom: 20px;
   align-items: center;
   justify-content: space-between;
+}
+
+.plan-showOff-header>p:last-child {
+  font-size: 19px;
 }
 
 .plan-showOff-line {
@@ -369,15 +387,72 @@ form > button:hover {
 .list-addons {
   padding-top: 15px;
 }
+
 .plan-showOff-addons {
   display: flex;
   justify-content: space-between;
 }
 
-.plan-showOff-addons > p {
+.plan-showOff-addons>p {
   margin: 8px 0;
   padding: 0 10px;
 }
-.plan-showOff-addons >p:first-child {
+
+.plan-showOff-addons>p:first-child {
+  color: var(--Cool-gray);
+}
+
+.total {
+  width: 100%;
+  height: 50px;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 25px;
+}
+
+.total>p {
+  color: var(--Cool-gray);
+}
+
+.total>div {
+  font-size: 22px;
+  color: var(--Purplish-blue);
+}
+
+.thank-you {
+  height: 568px;
+  width: 478px;
+  margin: 16px 116px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.thank-you>div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.thank-you>div>img {
+  margin: 20px;
+}
+
+.thank-you>div>p:nth-child(2) {
+  font-size: 30px;
+  margin: 10px;
+  color: var(--Marine-blue);
+}
+
+.thank-you>div>p:last-child {
+  margin: 8px;
+  font-size: 17px;
   color: var(--Cool-gray);
 }

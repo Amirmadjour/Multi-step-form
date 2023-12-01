@@ -1,18 +1,36 @@
-import { configureStore } from '@reduxjs/toolkit'
-import mo_yrReducer from '../src/appStates/mo_yrSlice'
-import sumReducer from '../src/appStates/sumSlice'
-import add_onsReducer from '../src/appStates/add_onsSlice'
-import isCheckedReducer from '../src/appStates/isCheckedSlice'
-import selectedButtonReducer from '../src/appStates/selectedButton'
-import stepCounterReducer from '../src/appStates/step_counterSlice'
+import { configureStore } from "@reduxjs/toolkit";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-export const store = configureStore({
-  reducer: {
-    mo_yr: mo_yrReducer,
-    sum: sumReducer,
-    add_ons: add_onsReducer,
-    isChecked: isCheckedReducer,
-    PlanType: selectedButtonReducer,
-    step_counter: stepCounterReducer,
-  },
-})
+import rootReducer from "./CombineReducers";
+
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ['form_submitted'],
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) => 
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+const persistor = persistStore(store);
+
+export { store , persistor };

@@ -5,7 +5,11 @@
 
 .props-info, 
 .step-container > p,
-form > button { 
+form > button,
+.form_step_one > button,
+.plan-showOff-header,
+.total > div,
+.thank-you > div > p:nth-child(2) { 
   font-family: Ubuntu-Bold;
 }
 
@@ -18,7 +22,7 @@ input,
 input::placeholder,
 .planbuttons > button,
 .checkbox > div > p:first-child,
-.plan-showOff-header {
+.plan-showOff-addons > p:last-child {
   font-family: Ubuntu-Medium;
 }
 
