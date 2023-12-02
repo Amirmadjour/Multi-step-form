@@ -11,10 +11,13 @@ export const form_submittedSlice = createSlice({
     submit_form: (state) => {
       state.value = !state.value;
     },
+    setSbm: (state) => {
+      state.value = false;
+    },
   },
 });
 
-export const { submit_form } = form_submittedSlice.actions;
+export const { submit_form, setSbm } = form_submittedSlice.actions;
 export const selectFormSubmission = (state) => state.form_submitted.value;
 
 export default form_submittedSlice.reducer;

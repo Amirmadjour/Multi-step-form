@@ -17,6 +17,7 @@
   /* Neutral */
   --Cool-gray: hsl(231, 11%, 63%);
   --Light-gray: hsl(229, 24%, 87%);
+  --Ligher-gray: rgb(180, 180, 180, 0.3); 
   --Magnolia: hsl(217, 100%, 97%);
   --Alabaster: hsl(231, 100%, 99%);
   --White: hsl(0, 0%, 100%);
@@ -45,6 +46,7 @@ body {
   width: 1000px;
   border-radius: 15px;
   background-color: white;
+  box-shadow: 0 0px 40px 0px var(--Ligher-gray);
 }
 
 .mainwindow>p {
@@ -209,7 +211,7 @@ form>button:hover {
 
   padding-left: 20px;
 
-  height: 160px;
+  min-height: 160px;
   width: 150px;
   border-radius: 10px;
   box-shadow: none;
@@ -220,6 +222,11 @@ form>button:hover {
   color: var(--Marine-blue);
   background-color: transparent;
   text-align: left;
+}
+
+p.months-free {
+  color: var(--Marine-blue);
+  font-size: 14px;
 }
 
 .planbuttons>button:hover {
@@ -236,7 +243,7 @@ form>button:hover {
   margin-top: 0;
 }
 
-.planbuttons>button>p:last-child {
+.plan_price{
   color: var(--Cool-gray);
 }
 
@@ -455,4 +462,8 @@ form>button:hover {
   margin: 8px;
   font-size: 17px;
   color: var(--Cool-gray);
+}
+
+@media only screen and (max-width: 500px) {
+  
 }

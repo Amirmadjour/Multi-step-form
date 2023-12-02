@@ -26,6 +26,7 @@ import {
 import {
   selectFormSubmission,
   submit_form,
+  setSbm,
 } from "./appStates/form_submitted.js";
 
 function App() {
@@ -112,6 +113,12 @@ function Multi_step_form() {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  useEffect(() => {
+    if (form_sbm) {
+      dispatch(setSbm());
+    }
+  }, []);
 
   return (
     <>
@@ -250,7 +257,8 @@ const PlanButtons = () => {
         >
           <img src={iconArcadeSVG} />
           <p>Arcade</p>
-          <p>{toggled ? "$90/yr" : "$9/mo"}</p>
+          <p className="plan_price">{toggled ? "$90/yr" : "$9/mo"}</p>
+          <p className="months-free">{toggled ? "2 months free": ""}</p>
         </button>
         <button
           type="button"
@@ -262,7 +270,8 @@ const PlanButtons = () => {
         >
           <img src={iconAdvancedSVG} />
           <p>Advanced</p>
-          <p>{toggled ? "$120/yr" : "$12/mo"}</p>
+          <p className="plan_price">{toggled ? "$120/yr" : "$12/mo"}</p>
+          <p className="months-free">{toggled ? "2 months free": ""}</p>
         </button>
         <button
           type="button"
@@ -274,7 +283,8 @@ const PlanButtons = () => {
         >
           <img src={iconProdSVG} />
           <p>Pro</p>
-          <p>{toggled ? "$150/yr" : "$15/mo"}</p>
+          <p className="plan_price">{toggled ? "$150/yr" : "$15/mo"}</p>
+          <p className="months-free">{toggled ? "2 months free": ""}</p>
         </button>
       </div>
       <div
