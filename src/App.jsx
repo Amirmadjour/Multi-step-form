@@ -33,6 +33,7 @@ function App() {
   return (
     <>
       <Mainwindow />
+      <TopBar />
     </>
   );
 }
@@ -40,13 +41,47 @@ function App() {
 function Mainwindow() {
   return (
     <div className="mainwindow">
-      <Sidebar steps />
+      <Sidebar />
       <Multi_step_form />
     </div>
   );
 }
 
-function Sidebar(props) {
+function TopBar() {
+  const steps = useSelector(selectStepCounter);
+  return (
+    <div className="topbar">
+      <div className="info-bar">
+        <UpBarstep
+          className={
+            steps === 1 ? "step-container step-activated" : "step-container"
+          }
+          number="1"
+        ></UpBarstep>
+        <UpBarstep
+          className={
+            steps === 2 ? "step-container step-activated" : "step-container"
+          }
+          number="2"
+        ></UpBarstep>
+        <UpBarstep
+          className={
+            steps === 3 ? "step-container step-activated" : "step-container"
+          }
+          number="3"
+        ></UpBarstep>
+        <UpBarstep
+          className={
+            steps >= 4 ? "step-container step-activated" : "step-container"
+          }
+          number="4"
+        ></UpBarstep>
+      </div>
+    </div>
+  );
+}
+
+function Sidebar() {
   const steps = useSelector(selectStepCounter);
   return (
     <div className="sidebar">
@@ -80,6 +115,14 @@ function Sidebar(props) {
           info="SUMMERY"
         ></Barstep>
       </div>
+    </div>
+  );
+}
+
+function UpBarstep(props) {
+  return (
+    <div className={props.className}>
+      <p>{props.number}</p>
     </div>
   );
 }
@@ -256,9 +299,11 @@ const PlanButtons = () => {
           }}
         >
           <img src={iconArcadeSVG} />
-          <p>Arcade</p>
-          <p className="plan_price">{toggled ? "$90/yr" : "$9/mo"}</p>
-          <p className="months-free">{toggled ? "2 months free": ""}</p>
+          <div className="planbutton-container">
+            <p>Arcade</p>
+            <p className="plan_price">{toggled ? "$120/yr" : "$12/mo"}</p>
+            <p className="months-free">{toggled ? "2 months free" : ""}</p>
+          </div>
         </button>
         <button
           type="button"
@@ -269,9 +314,11 @@ const PlanButtons = () => {
           }}
         >
           <img src={iconAdvancedSVG} />
-          <p>Advanced</p>
-          <p className="plan_price">{toggled ? "$120/yr" : "$12/mo"}</p>
-          <p className="months-free">{toggled ? "2 months free": ""}</p>
+          <div className="planbutton-container">
+            <p>Advanced</p>
+            <p className="plan_price">{toggled ? "$150/yr" : "$15/mo"}</p>
+            <p className="months-free">{toggled ? "2 months free" : ""}</p>
+          </div>
         </button>
         <button
           type="button"
@@ -282,9 +329,11 @@ const PlanButtons = () => {
           }}
         >
           <img src={iconProdSVG} />
-          <p>Pro</p>
-          <p className="plan_price">{toggled ? "$150/yr" : "$15/mo"}</p>
-          <p className="months-free">{toggled ? "2 months free": ""}</p>
+          <div className="planbutton-container">
+            <p>Pro</p>
+            <p className="plan_price">{toggled ? "$90/yr" : "$9/mo"}</p>
+            <p className="months-free">{toggled ? "2 months free" : ""}</p>
+          </div>
         </button>
       </div>
       <div
@@ -338,13 +387,15 @@ function CheckBox(props) {
 
   return (
     <label className={props.checked ? "checkbox checkbox_active" : "checkbox"}>
-      <input
-        checked={props.checked}
-        onChange={() => dispatch(toggleChecked(props.index))}
-        type="checkbox"
-        id={props.id}
-      ></input>
-      <img src={iconCheckmarkSVG} />
+      <div className="checkbox-checked-container">
+        <input
+          checked={props.checked}
+          onChange={() => dispatch(toggleChecked(props.index))}
+          type="checkbox"
+          id={props.id}
+        ></input>
+        <img src={iconCheckmarkSVG} />
+      </div>
       <div>
         <p>{props.title}</p>
         <p>{props.description}</p>

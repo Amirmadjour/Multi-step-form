@@ -1,2 +1,1 @@
-```The shadow of the main window```
-```Responsiveness```
+```Responsiveness (20% complete)```

@@ -17,7 +17,7 @@
   /* Neutral */
   --Cool-gray: hsl(231, 11%, 63%);
   --Light-gray: hsl(229, 24%, 87%);
-  --Ligher-gray: rgb(180, 180, 180, 0.3); 
+  --Ligher-gray: rgb(180, 180, 180, 0.3);
   --Magnolia: hsl(217, 100%, 97%);
   --Alabaster: hsl(231, 100%, 99%);
   --White: hsl(0, 0%, 100%);
@@ -62,6 +62,10 @@ body {
   margin-left: 16px;
 }
 
+.topbar {
+  display: none;
+}
+
 .info-bar {
   position: absolute;
   margin-top: 1.5rem;
@@ -100,7 +104,7 @@ body {
 }
 
 .step_form {
-  width: inherit;
+  width: 478px;
   height: 440px;
 
   color: var(--Marine-blue);
@@ -224,6 +228,15 @@ form>button:hover {
   text-align: left;
 }
 
+.planbutton-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.planbutton-container > p {
+  margin: 0;
+}
+
 p.months-free {
   color: var(--Marine-blue);
   font-size: 14px;
@@ -243,7 +256,7 @@ p.months-free {
   margin-top: 0;
 }
 
-.plan_price{
+.plan_price {
   color: var(--Cool-gray);
 }
 
@@ -252,6 +265,7 @@ p.months-free {
   width: 100%;
   gap: 20px;
   justify-content: center;
+  border-radius: 10px;
 
   margin-top: 20px;
   background-color: var(--Magnolia);
@@ -302,7 +316,7 @@ p.months-free {
   background-color: var(--Magnolia);
 }
 
-.checkbox>input {
+.checkbox-checked-container >input {
   height: 20px;
   width: 20px;
   margin: 0;
@@ -310,13 +324,18 @@ p.months-free {
   border: 1px solid var(--Light-gray);
 }
 
-.checkbox>input:checked {
+.checkbox-checked-container > input:checked {
   background-color: var(--Purplish-blue);
   border-color: var(--Purplish-blue);
 }
 
 .checkbox>div {
   width: 60%;
+}
+
+.checkbox-checked-container {
+  max-width: 20px;
+  position: relative;
 }
 
 .checkbox>div>p {
@@ -332,9 +351,10 @@ p.months-free {
   margin-bottom: 16px;
 }
 
-.checkbox>img {
+.checkbox-checked-container>img {
   position: absolute;
-  left: 34px;
+  top: 6px;
+  left: 5px;
   z-index: 1;
 }
 
@@ -438,7 +458,6 @@ p.months-free {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
 }
 
 .thank-you>div {
@@ -464,6 +483,155 @@ p.months-free {
   color: var(--Cool-gray);
 }
 
-@media only screen and (max-width: 500px) {
-  
+@media (max-width: 500px) {
+  body {
+    justify-content: center;
+    align-items: start;
+  }
+
+  #root {
+    padding: 0;
+    width: 90%;
+    margin: 0;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+  }
+
+  .mainwindow {
+    width: 100%;
+    max-width: 480px;
+    margin: 0;
+    margin-top: 100px;
+    align-items: start;
+    justify-content: center;
+    height: auto;
+
+    z-index: 2;
+  }
+
+  form {
+    height: auto;
+    position: relative;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+  }
+
+  .step_form {
+    width: 86%;
+    height: auto;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .topbar {
+    display: flex;
+    position: absolute;
+    top: 0;
+    background-position: center;
+    justify-content: center;
+    height: 274px;
+    width: 100%;
+  }
+
+  .topbar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url('/bg-sidebar-desktop.svg');
+    background-position: center 90%;
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+  }
+
+  .info-bar {
+    display: flex;
+  }
+
+  .step-container {
+    margin-right: 3vw;
+    margin-left: 3vw;
+  }
+
+  .step_form>h2 {
+    font-size: 30px;
+  }
+
+  .step_form>p {
+    font-size: 22px;
+    padding: 0 0 15px 0;
+  }
+
+  p.required_phrase {
+    padding: 0;
+    font-size: 16px;
+  }
+
+  .form_step_one>button,
+  form>button {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .planbuttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .planbuttons>button {
+    width: 100%;
+    flex-direction: row;
+    min-height: 80px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .planbutton-container {
+    padding-left: 20px;
+  }
+
+  .planbuttons > button > img {
+    padding: 0;
+  }
+
+  .toggle {
+    margin: 0;
+    margin-bottom: 10px;
+  }
+
+  .checkbox > div > p:last-child {
+    font-size: 3.25vw;
+  }
+
+  .checkbox > img {
+    position: static;
+    left: 0;
+  }
+
+  .plan-showOff {
+    width: 100%;
+  }
+
+  .plan-showOff-line {
+    width: 86%;
+  }
+
+  .total {
+    padding: 15px;
+  }
+
+  .thank-you {
+    width: 86%;
+    height: auto;
+    margin: 0;
+
+    padding-bottom: 20px;
+  }
 }
