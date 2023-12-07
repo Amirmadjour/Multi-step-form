@@ -573,6 +573,10 @@ p.months-free {
     font-size: 16px;
   }
 
+  .form_step_one {
+    padding-bottom: 15px;
+  }
+
   .form_step_one>button,
   form>button {
     position: fixed;
