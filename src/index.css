@@ -233,7 +233,7 @@ form>button:hover {
   flex-direction: column;
 }
 
-.planbutton-container > p {
+.planbutton-container>p {
   margin: 0;
 }
 
@@ -316,7 +316,7 @@ p.months-free {
   background-color: var(--Magnolia);
 }
 
-.checkbox-checked-container >input {
+.checkbox-checked-container>input {
   height: 20px;
   width: 20px;
   margin: 0;
@@ -324,7 +324,7 @@ p.months-free {
   border: 1px solid var(--Light-gray);
 }
 
-.checkbox-checked-container > input:checked {
+.checkbox-checked-container>input:checked {
   background-color: var(--Purplish-blue);
   border-color: var(--Purplish-blue);
 }
@@ -601,7 +601,7 @@ p.months-free {
     padding-left: 20px;
   }
 
-  .planbuttons > button > img {
+  .planbuttons>button>img {
     padding: 0;
   }
 
@@ -610,11 +610,11 @@ p.months-free {
     margin-bottom: 10px;
   }
 
-  .checkbox > div > p:last-child {
+  .checkbox>div>p:last-child {
     font-size: 3.25vw;
   }
 
-  .checkbox > img {
+  .checkbox>img {
     position: static;
     left: 0;
   }
@@ -639,5 +639,41 @@ p.months-free {
     margin: 0;
 
     padding-bottom: 20px;
+  }
+
+  .form_step_one>button,
+  form>button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .form_step_one>button:hover,
+  form>button:hover {
+    opacity: 1;
+  }
+
+  .form_step_one>button:active::after,
+  form>button:active::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgb(170, 170, 170);
+    opacity: 0.3;
+    animation: grow .5s;
+  }
+
+  @keyframes grow {
+    from {
+      height: 30px;
+      width: 30px;
+    }
+
+    to {
+      height: 140px;
+      width: 140px;
+    }
   }
 }

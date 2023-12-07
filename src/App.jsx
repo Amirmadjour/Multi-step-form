@@ -243,7 +243,6 @@ function Step1({ formData, handleInputChange }) {
         value={formData.name}
         onChange={handleInputChange}
         autoComplete="off"
-        required
       ></input>
       <label htmlFor="email">Email Address</label>
       {filled === 2 && !formData.email.trim() && (
@@ -258,7 +257,6 @@ function Step1({ formData, handleInputChange }) {
         value={formData.email}
         onChange={handleInputChange}
         autoComplete="off"
-        required
       ></input>
       <label htmlFor="phone">Phone Number</label>
       {filled === 3 && !formData.phone.trim() && (
@@ -273,11 +271,10 @@ function Step1({ formData, handleInputChange }) {
         value={formData.phone}
         onChange={handleInputChange}
         autoComplete="off"
-        required
       ></input>
-      <button type="button" onClick={handleCheckFields}>
-        Next Step
-      </button>
+        <button type="button" onClick={handleCheckFields}>
+          Next Step
+        </button>
     </div>
   );
 }
