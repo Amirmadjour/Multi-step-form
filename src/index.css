@@ -629,6 +629,8 @@ p.months-free {
 
   .total {
     padding: 15px;
+    padding-top: 0;
+    height: auto;
   }
 
   .thank-you {

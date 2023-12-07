@@ -301,7 +301,7 @@ const PlanButtons = () => {
           <img src={iconArcadeSVG} />
           <div className="planbutton-container">
             <p>Arcade</p>
-            <p className="plan_price">{toggled ? "$120/yr" : "$12/mo"}</p>
+            <p className="plan_price">{toggled ? "$90/yr" : "$9/mo"}</p>
             <p className="months-free">{toggled ? "2 months free" : ""}</p>
           </div>
         </button>
@@ -316,7 +316,7 @@ const PlanButtons = () => {
           <img src={iconAdvancedSVG} />
           <div className="planbutton-container">
             <p>Advanced</p>
-            <p className="plan_price">{toggled ? "$150/yr" : "$15/mo"}</p>
+            <p className="plan_price">{toggled ? "$120/yr" : "$12/mo"}</p>
             <p className="months-free">{toggled ? "2 months free" : ""}</p>
           </div>
         </button>
@@ -331,7 +331,7 @@ const PlanButtons = () => {
           <img src={iconProdSVG} />
           <div className="planbutton-container">
             <p>Pro</p>
-            <p className="plan_price">{toggled ? "$90/yr" : "$9/mo"}</p>
+            <p className="plan_price">{toggled ? "$150/yr" : "$15/mo"}</p>
             <p className="months-free">{toggled ? "2 months free" : ""}</p>
           </div>
         </button>
