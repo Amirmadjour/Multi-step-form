@@ -28,6 +28,14 @@ import {
   submit_form,
   setSbm,
 } from "./appStates/form_submitted.js";
+import {
+  handleInputChange,
+  selectFilled,
+} from "./appStates/user_filledInputs.js";
+import {
+  selectEmptyInput,
+  handleCheckFields,
+} from "./appStates/checkinputsSlice.js";
 
 function App() {
   return (
@@ -142,56 +150,56 @@ function Barstep(props) {
 function Multi_step_form() {
   const step = useSelector(selectStepCounter);
   const form_sbm = useSelector(selectFormSubmission);
+  let emptyFields = useSelector(selectEmptyInput);
+  const filled = useSelector(selectFilled);
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-  });
-
   const Next_confirm = step === 4 ? "Confirm" : "Next Step";
   const Next_class_name = step === 4 ? "Purple" : "";
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  useEffect(() => {
-    if (form_sbm) {
-      dispatch(setSbm());
-    }
-  }, []);
 
   return (
     <>
       {step <= 4 && !form_sbm && (
         <form>
-          {step === 1 && (
-            <Step1 formData={formData} handleInputChange={handleInputChange} />
-          )}
+          {step === 1 && <Step1 formData handleInputChange />}
           {step === 2 && <Step2 />}
           {step === 3 && <Step3 />}
           {step === 4 && <Step4 />}
-          {step !== 1 && (
-            <button
-              className={Next_class_name}
-              onClick={(e) => {
-                if (step < 4) {
+          <button
+            className={Next_class_name}
+            onClick={(e) => {
+              {
+                if (step < 4 && step != 1) {
                   e.preventDefault();
                   dispatch(handleNextStep());
                 } else {
-                  dispatch(submit_form());
-                  setTimeout(() => {
-                    window.location.reload();
+                  if (step !== 1) {
                     dispatch(submit_form());
-                  }, 2000);
+                    setTimeout(() => {
+                      window.location.reload();
+                      dispatch(submit_form());
+                    }, 2000);
+                  }
                 }
-              }}
-            >
-              {Next_confirm}
-            </button>
-          )}
+              }
+              if (step == 1) {
+                e.preventDefault();
+                dispatch(handleCheckFields(filled));
+                //Stupid Solution but it works(repeated code!!)
+                if (!filled[0].trim()) {
+                  emptyFields = 1;
+                } else if (!filled[1].trim()) {
+                  emptyFields = 2;
+                } else if (!filled[2].trim()) {
+                  emptyFields = 3;
+                } else {
+                  emptyFields = -1;
+                }
+                if (emptyFields == -1) dispatch(handleNextStep());
+              }
+            }}
+          >
+            {Next_confirm}
+          </button>
 
           {step !== 1 && (
             <button
@@ -211,70 +219,63 @@ function Multi_step_form() {
   );
 }
 
-function Step1({ formData, handleInputChange }) {
+function Step1() {
   const dispatch = useDispatch();
-  const [filled, setFilled] = useState(null);
-  const handleCheckFields = () => {
-    if (!formData.name.trim()) {
-      setFilled(1);
-    } else if (!formData.email.trim()) {
-      setFilled(2);
-    } else if (!formData.phone.trim()) {
-      setFilled(3);
-    } else {
-      dispatch(handleNextStep());
-    }
-  };
+  const filled = useSelector(selectFilled);
+  const emptyFields = useSelector(selectEmptyInput);
 
   return (
     <div className="step_form form_step_one">
       <h2 className="personal_info">Personal info</h2>
       <p>Please provide your name, email and phone number.</p>
       <label htmlFor="name">Name</label>
-      {filled === 1 && !formData.name.trim() && (
+      {emptyFields === 1 && !filled[0].trim() && (
         <p className="required_phrase">This field is required</p>
       )}
       <input
-        className={filled === 1 && !formData.name.trim() ? "required" : ""}
+        className={emptyFields === 1 && !filled[0].trim() ? "required" : ""}
         type="text"
         placeholder="e.g. Amar Mansour"
         name="name"
         id="name"
-        value={formData.name}
-        onChange={handleInputChange}
+        value={filled[0]}
+        onChange={(e) =>
+          dispatch(handleInputChange({ name: "name", value: e.target.value }))
+        }
         autoComplete="off"
       ></input>
       <label htmlFor="email">Email Address</label>
-      {filled === 2 && !formData.email.trim() && (
+      {emptyFields === 2 && !filled[1].trim() && (
         <p className="required_phrase">This field is required</p>
       )}
       <input
-        className={filled === 2 && !formData.email.trim() ? "required" : ""}
+        className={emptyFields === 2 && !filled[1].trim() ? "required" : ""}
         type="text"
         placeholder="e.g. someting10@gmail.com"
         name="email"
         id="email"
-        value={formData.email}
-        onChange={handleInputChange}
+        value={filled[1]}
+        onChange={(e) =>
+          dispatch(handleInputChange({ name: "email", value: e.target.value }))
+        }
         autoComplete="off"
       ></input>
       <label htmlFor="phone">Phone Number</label>
-      {filled === 3 && !formData.phone.trim() && (
+      {emptyFields === 3 && !filled[2].trim() && (
         <p className="required_phrase">This field is required</p>
       )}
       <input
-        className={filled === 3 && !formData.phone.trim() ? "required" : ""}
+        className={emptyFields === 3 && !filled[2].trim() ? "required" : ""}
         type="text"
         placeholder="e.g. 0512345678"
         name="phone"
         id="phone"
-        value={formData.phone}
-        onChange={handleInputChange}
+        value={filled[2]}
+        onChange={(e) =>
+          dispatch(handleInputChange({ name: "phone", value: e.target.value }))
+        }
         autoComplete="off"
       ></input>
-        <button type="button" onClick={handleCheckFields}>
-          Next Step
-        </button>
     </div>
   );
 }

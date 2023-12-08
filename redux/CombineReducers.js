@@ -7,6 +7,8 @@ import isCheckedReducer from '../src/appStates/isCheckedSlice'
 import selectedButtonReducer from '../src/appStates/selectedButton'
 import stepCounterReducer from '../src/appStates/step_counterSlice'
 import form_submittedReducer from '../src/appStates/form_submitted'
+import user_filledInputsReducer from '../src/appStates/user_filledInputs'
+import checkinputsReducer from '../src/appStates/checkinputsSlice'
 
 const rootReducer = combineReducers({
     mo_yr: mo_yrReducer,
@@ -16,6 +18,8 @@ const rootReducer = combineReducers({
     PlanType: selectedButtonReducer,
     step_counter: stepCounterReducer,
     form_submitted: form_submittedReducer,
+    userfilledinputs: user_filledInputsReducer,
+    checkinputs: checkinputsReducer,
 });
 
 export default rootReducer;

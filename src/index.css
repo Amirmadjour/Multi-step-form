@@ -662,18 +662,22 @@ p.months-free {
     border-radius: 50%;
     background-color: rgb(170, 170, 170);
     opacity: 0.3;
-    animation: grow .5s;
+    animation: grow 1s cubic-bezier(.13, .78, .4, .95);
   }
 
   @keyframes grow {
-    from {
+    0% {
       height: 30px;
       width: 30px;
     }
 
-    to {
+    20% {
       height: 140px;
       width: 140px;
+    }
+
+    100% {
+      opacity: 0;
     }
   }
 }

@@ -1,19 +1,36 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 export const userfilledinputsSlice = createSlice({
-  name: 'userfilledinputs',
+  name: "userfilledinputs",
   initialState: {
-    value:[false, false, false],
+    value: ["", "", ""],
   },
   reducers: {
-    toggleChecked: (state, action) => {
-      const index = action.payload;
-      state.value[index] = !state.value[index];
-    }
+    handleInputChange: (state, action) => {
+      const { name, value } = action.payload;
+      if (name == "name") {
+        state.value[0] = value;
+      } else if (name == "email") {
+        state.value[1] = value;
+      } else {
+        state.value[2] = value;
+      }
+    },
+    handleCheckFields: () => {
+      if (!formData.name.trim()) {
+        setFilled(1);
+      } else if (!formData.email.trim()) {
+        setFilled(2);
+      } else if (!formData.phone.trim()) {
+        setFilled(3);
+      } else {
+        dispatch(handleNextStep());
+      }
+    },
   },
-})
+});
 
-export const { } = userfilledinputsSlice.actions
-export const selectFilled = (state) => state.userfilledinputsSlice.value
+export const { handleInputChange } = userfilledinputsSlice.actions;
+export const selectFilled = (state) => state.userfilledinputs.value;
 
-export default userfilledinputsSlice.reducer
+export default userfilledinputsSlice.reducer;
