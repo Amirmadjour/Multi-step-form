@@ -240,6 +240,8 @@ form>button:hover {
 p.months-free {
   color: var(--Marine-blue);
   font-size: 14px;
+  padding-bottom: 4px;
+  padding-top: 4px;
 }
 
 .planbuttons>button:hover {
